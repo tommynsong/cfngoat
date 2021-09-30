@@ -1,4 +1,4 @@
-name: build
+name: BridgeCrew
 on:
   push:
     branches:
