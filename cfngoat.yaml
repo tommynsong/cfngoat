@@ -43,6 +43,12 @@ Resources:
       Tags: 
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-ec2" 
+        - Key: yor_trace
+          Value: 9d5d24a2-bbe2-4b17-9d5e-f53e40ea768f
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
       UserData:
         Fn::Base64: |
           #!/bin/bash
@@ -54,7 +60,6 @@ Resources:
           export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMAAAKEY
           export AWS_DEFAULT_REGION=us-west-2
           echo "<h1>Deployed via CloudFormation</h1>" | sudo tee /var/www/html/index.html
-
   WebHostStorage:
     # Unencrypted Volume
     Type: AWS::EC2::Volume
@@ -68,9 +73,14 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-ebs"
+        - Key: yor_trace
+          Value: 1b2affd0-88c7-48b3-975e-dad811933497
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
 
   ### CFN Does not Support Volume Snapshot
-
   EBSAttachment:
     Type: AWS::EC2::VolumeAttachment
     Properties:
@@ -98,7 +108,13 @@ Resources:
         FromPort: 0
         ToPort: 0
         CidrIp: 0.0.0.0/0
-
+      Tags:
+        - Key: yor_trace
+          Value: 8e4bbef9-522e-46cf-ae77-e06ce232ca50
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   WebVPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -108,7 +124,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-vpc"
-
+        - Key: yor_trace
+          Value: 543a2ba8-9a72-44ac-8700-b0da0645faf2
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   WebSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -122,7 +143,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-subnet"
-
+        - Key: yor_trace
+          Value: 29a9d206-ee68-496a-a2a1-3594506fb487
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   WebSubnet2:
     Type: AWS::EC2::Subnet
     Properties:
@@ -136,20 +162,29 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-subnet2"
-
+        - Key: yor_trace
+          Value: f9aa9c08-ae52-46dd-8bab-7e7dd1e89fc2
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   WebIGW:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-igw"
-
+        - Key: yor_trace
+          Value: 774ba94e-20ee-4f86-8d1d-86265ef51349
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
       InternetGatewayId: !Ref WebIGW
       VpcId: !Ref WebVPC
-
   WebRTB:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -157,7 +192,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-rtb"
-
+        - Key: yor_trace
+          Value: 92582377-cc7d-4f03-8d8e-f6809ea3e3a4
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   WebDefaultPublicRoute:
     Type: AWS::EC2::Route
     DependsOn:
@@ -166,19 +206,16 @@ Resources:
       RouteTableId: !Ref WebRTB
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref WebIGW
-
   RTBAssoc:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref WebSubnet
       RouteTableId: !Ref WebRTB
-
   RTBAssoc2:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref WebSubnet2
       RouteTableId: !Ref WebRTB
-
   WebENI:
     Type: AWS::EC2::NetworkInterface
     Properties:
@@ -188,7 +225,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-primary_network_interface"
-
+        - Key: yor_trace
+          Value: f38c60b8-5e6b-48b8-9bb6-e37fae1e94fc
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   VpcFlowLogs:
     Type: AWS::EC2::FlowLog
     Properties:
@@ -197,7 +239,13 @@ Resources:
       LogDestination: !GetAtt FlowBucket.Arn
       LogDestinationType: s3
       TrafficType: ALL
-
+      Tags:
+        - Key: yor_trace
+          Value: fdeb2d88-436e-4b9f-a193-89240a354d15
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   FlowBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
@@ -206,11 +254,16 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-flowlogs"
+        - Key: yor_trace
+          Value: ef0ab17d-0b21-4304-a190-9f1620e12d77
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
 
   #############
   ###  IAM  ###
   #############
-
   User:
     Type: AWS::IAM::User
     Properties:
@@ -220,12 +273,16 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-user"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: f112d2c8-0b08-402c-83e5-26157f99493a
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   AccessKey:
     Type: AWS::IAM::AccessKey
     Properties:
       UserName: !Ref User
-
   UserPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -246,7 +303,6 @@ Resources:
   #############
   ###  KMS  ###
   #############
-
   LogsKey:
     # Key does not have rotation enabled
     Type: AWS::KMS::Key
@@ -263,7 +319,13 @@ Resources:
             AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
           Action: kms:*
           Resource: '*'
-
+      Tags:
+        - Key: yor_trace
+          Value: 227c795c-b594-44ab-8bb6-dd6fa63627fe
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   LogsKeyAlias:
     Type: AWS::KMS::Alias
     Properties:
@@ -273,7 +335,6 @@ Resources:
   ################
   ###  DB App  ###
   ################
-
   DefaultDB:
     Type: AWS::RDS::DBInstance
     DeletionPolicy: Delete
@@ -302,7 +363,12 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-rds"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: 587e1a14-6ea5-4625-b9be-2df51309dfe2
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   DefaultDBOptionGroup:
     Type: AWS::RDS::OptionGroup
     Properties:
@@ -315,7 +381,12 @@ Resources:
           Value: !Sub "og-${AWS::AccountId}-${CompanyName}-${Environment}"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: dbd3a120-55ac-43da-aede-878483ce1824
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   DefaultDBParameterGroup:
     Type: AWS::RDS::DBParameterGroup
     Properties:
@@ -329,7 +400,12 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-pg"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: bc0141de-ad50-4701-b585-347060f136f1
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   DefaultSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -343,7 +419,12 @@ Resources:
           Value: !Sub "sg-${AWS::AccountId}-${CompanyName}-${Environment}"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: 485a2988-9049-443c-bc68-04ee2c878ebf
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   DefaultSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -360,7 +441,12 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-rds-sg"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: d75baa7e-d42e-40e6-b9fc-8a2f48d2bc01
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   EC2Profile:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -368,7 +454,6 @@ Resources:
       Path: "/"
       Roles:
         - !Ref EC2Role
-
   EC2Role:
     Type: AWS::IAM::Role
     Properties:
@@ -389,7 +474,12 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-role"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: 67e22dd5-201d-4c65-b6e5-49fa24766453
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   EC2Policy:
     Type: AWS::IAM::Policy
     Properties:
@@ -406,8 +496,6 @@ Resources:
             Resource: "*"
       Roles:
         - !Ref EC2Role
-
-
   DBAppInstance:
     # EC2 have plain text secrets in user data
     Type: AWS::EC2::Instance
@@ -425,6 +513,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-dbapp"
+        - Key: yor_trace
+          Value: 5b6310f0-c08c-4b6e-8a7b-520358805b5a
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
@@ -545,7 +639,6 @@ Resources:
   ################
   ###  Lambda  ###
   ################
-
   IAM4Lambda:
     Type: "AWS::IAM::Role"
     Properties:
@@ -566,7 +659,12 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-analysis-lambda"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: d66703b7-f386-4576-8d40-9679156f7bfb
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   AnalysisLambda:
     Type: AWS::Lambda::Function
     Properties:
@@ -586,11 +684,16 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-analysis"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
+        - Key: yor_trace
+          Value: dc8ce5e3-ace4-4821-9a53-3f1d8e0f71ff
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
 
   ############
   ###  S3  ###
   ############
-
   DataBucket:
     # Public, not encrypted, no access logs, no versioning
     Type: AWS::S3::Bucket
@@ -601,9 +704,14 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-data"
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
+        - Key: yor_trace
+          Value: 6491be24-d510-420e-972a-996f1cb11ed8
 
   ### TODO - Custom Upload of insecure document
-
   FinancialsBucket:
     # not encrypted, no access logs, no versioning
     Type: AWS::S3::Bucket
@@ -614,7 +722,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-financials"
-
+        - Key: yor_trace
+          Value: e3646b0a-01be-469b-974e-69e229271aaf
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   OperationsBucket:
     # not encrypted, no access logs
     Type: AWS::S3::Bucket
@@ -627,7 +740,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-operations"
-
+        - Key: git_repo
+          Value: cfngoat
+        - Key: yor_trace
+          Value: 1993f4fe-0773-4a86-9f8d-7da8b8e31784
+        - Key: git_org
+          Value: tommynsong
   DataScienceBucket:
     # not encrypted
     Type: AWS::S3::Bucket
@@ -643,7 +761,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-data-science"
-
+        - Key: yor_trace
+          Value: c5ff14e8-91c3-4b63-a607-a681a5e65c9a
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   LogsBucket:
     # not encrypted
     Type: AWS::S3::Bucket
@@ -661,6 +784,12 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-logs"
+        - Key: yor_trace
+          Value: 15c87a34-3f26-4288-b3e0-a6aa163f8e2b
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
 
    ########################
    ### Clean S3 Buckets ###
@@ -697,7 +826,12 @@ Resources:
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-cleanup-role"
         - Key: Environment
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}"
-
+        - Key: yor_trace
+          Value: c7aac269-a73a-4a05-bf26-bbcc3503f021
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   CleanBucketFunction:
     Type: "AWS::Lambda::Function"
     DependsOn:
@@ -835,37 +969,38 @@ Resources:
             request.write(responseBody);
             request.end();
           }
-
+      Tags:
+        - Key: yor_trace
+          Value: a58442d5-19a2-4ca3-a272-157c487d87af
+        - Key: git_org
+          Value: tommynsong
+        - Key: git_repo
+          Value: cfngoat
   CleanFlowBucketOnDelete:
     Type: Custom::cleanupflowbucket
     Properties:
       ServiceToken: !GetAtt CleanBucketFunction.Arn
       BucketName: !Ref FlowBucket
-
   CleanDataBucketOnDelete:
     Type: Custom::cleanupdatabucket
     Properties:
       ServiceToken: !GetAtt CleanBucketFunction.Arn
       BucketName: !Ref DataBucket
-
   CleanFinancialsBucketOnDelete:
     Type: Custom::cleanupfinancialsbucket
     Properties:
       ServiceToken: !GetAtt CleanBucketFunction.Arn
       BucketName: !Ref FinancialsBucket
-
   CleanOperationsBucketOnDelete:
     Type: Custom::cleanupoperationsbucket
     Properties:
       ServiceToken: !GetAtt CleanBucketFunction.Arn
       BucketName: !Ref OperationsBucket
-
   CleanDataScienceBucketOnDelete:
     Type: Custom::cleanupdatasciencebucket
     Properties:
       ServiceToken: !GetAtt CleanBucketFunction.Arn
       BucketName: !Ref DataScienceBucket
-
   CleanLogsBucketOnDelete:
     Type: Custom::cleanuplogsbucket
     Properties:
